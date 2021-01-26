@@ -245,6 +245,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Core\Repositories\IRoleRepository.cs" />
+    <Compile Include="Core\Repositories\IUserRepository.cs" />
     <Compile Include="Core\ViewModel\AppointmentSearchVM.cs" />
     <Compile Include="Controllers\DoctorsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -270,6 +273,8 @@
     <Compile Include="Core\Models\PatientStatus.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Persistence\Repositories\AppointmentRepository.cs" />
+    <Compile Include="Persistence\Repositories\RoleRepository.cs" />
+    <Compile Include="Persistence\Repositories\UserRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Persistence\Repositories\ApplicationUserRepository.cs" />
     <Compile Include="Persistence\Repositories\CityRepository.cs" />
@@ -1111,6 +1116,7 @@
     <Content Include="Views\Appointments\_AppointmentPartial.cshtml" />
     <Content Include="Views\Attendances\_AttendancePartial.cshtml" />
     <Content Include="Views\Doctors\DoctorProfile.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
