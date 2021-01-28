@@ -10,27 +10,16 @@ namespace ClinicManagement.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationUserManager _userManger;
-        public UserRepository(ApplicationUserManager userManger)
+        private readonly ApplicationDbContext _context;
+        public UserRepository(ApplicationDbContext context)
         {
-            _userManger = userManger;
+            _context = context;
         }
-
-        public ApplicationRoleManager RoleManager
-        {
-            get
-            {
-                return _roleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
-            }
-            private set
-            {
-                _roleManager = value;
-            }
-        }
-
         public void Add(ApplicationUser applicationUser, List<int> roleIds)
         {
+            var user = _context.Users.Add(applicationUser);
             
+            _context.SaveChanges();
         }
 
     }

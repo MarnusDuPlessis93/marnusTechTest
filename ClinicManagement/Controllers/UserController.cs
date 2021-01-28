@@ -17,11 +17,11 @@ namespace ClinicManagement.Controllers
         // GET: User
         public ActionResult Create()
         {
-            //var model = new UserViewModel
-            //{
-            //    RolesList = _unitOfWork.
+            var model = new UserViewModel
+            {
+                RolesList = _unitOfWork.Users
 
-            //}
+            }
             return View();
         }
     }
