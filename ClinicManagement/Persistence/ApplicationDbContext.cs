@@ -1,6 +1,7 @@
 ﻿using ClinicManagement.Core.Models;
 using ClinicManagement.Persistence.EntityConfigurations;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
 namespace ClinicManagement.Persistence
@@ -14,7 +15,6 @@ namespace ClinicManagement.Persistence
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<City> Cities { get; set; }
         //public DbSet<PatientStatus> PatientStatus { get; set; }
-        //public DbSet<ApplicationUserRoles> ApplicationUserRoles { get; set; }
 
 
         public ApplicationDbContext()
@@ -39,12 +39,9 @@ namespace ClinicManagement.Persistence
             base.OnModelCreating(modelBuilder);
         }
     }
-
     public class ApplicationUserRoles : IdentityUserRole
     {
-        public string UserId { get; set; }
-
-        public string RoleId { get; set; }
+       
 
     }
 }

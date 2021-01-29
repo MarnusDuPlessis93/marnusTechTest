@@ -49,7 +49,7 @@ namespace ClinicManagement.Controllers
 
             if (userViewModel.IsAdmin)
             {
-                roleIds.Add(roles.Where(o => o.Name == "Administration").First().Id);
+                roleIds.Add(roles.Where(o => o.Name == "Administrator").First().Id);
             }
             if (userViewModel.IsDoctor)
             {

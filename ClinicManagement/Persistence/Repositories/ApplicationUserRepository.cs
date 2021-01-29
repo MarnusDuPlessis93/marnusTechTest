@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClinicManagement.Core.Dto;
 using ClinicManagement.Core.Models;
 using ClinicManagement.Core.Repositories;
 using ClinicManagement.Core.ViewModel;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ClinicManagement.Persistence.Repositories
@@ -39,25 +41,33 @@ namespace ClinicManagement.Persistence.Repositories
 
         public string CreateUser(ApplicationUser applicationUser, List<string> roleIds)
         {
-            var newUser = _context.Users.Add(applicationUser);
-
-            var userRoles = new List<ApplicationUserRoles>();
-            foreach (var roleId in roleIds)
+            try
             {
-                var userRole = new ApplicationUserRoles
+                var userStore = new UserStore<IdentityUser>(_context);
+                var userMngr = new UserManager<IdentityUser>(userStore);
+
+                var newUser = _context.Users.Add(applicationUser);
+
+                var userRoles = new List<ApplicationUserRoles>();
+                foreach (var roleId in roleIds)
                 {
-                    RoleId = roleId,
-                    UserId = newUser.Id
-                };
-                userRoles.Add(userRole);
+                    var userRole = new ApplicationUserRoles
+                    {
+                        RoleId = roleId,
+                        UserId = newUser.Id
+                    };
+                    userRoles.Add(userRole);
+                    userMngr.AddToRole(newUser.Id, roleId);
+                }
+
+                _context.SaveChanges();
+
+                return newUser.Id;
             }
-
-            //_context.ApplicationUserRoles.AddRange(userRoles);
-
-            _context.SaveChanges();
-
-
-            return newUser.Id;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
     }
