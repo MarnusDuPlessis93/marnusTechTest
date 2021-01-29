@@ -57,6 +57,7 @@ namespace ClinicManagement.Persistence.Repositories
                         UserId = newUser.Id
                     };
                     userRoles.Add(userRole);
+                    //TODO: getting an error. Will come back to this
                     userMngr.AddToRole(newUser.Id, roleId);
                 }
 
