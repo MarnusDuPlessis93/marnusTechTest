@@ -1,4 +1,5 @@
 ﻿using ClinicManagement.Core.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace ClinicManagement.Core.Repositories
 {
     public interface IRoleRepository
     {
-        List< Add(ApplicationUser applicationUser, List<int> roleIds);
+        List<IdentityRole> GetRoles();
     }
 }

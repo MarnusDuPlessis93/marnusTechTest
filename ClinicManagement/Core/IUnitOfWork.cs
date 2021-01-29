@@ -11,6 +11,7 @@ namespace ClinicManagement.Core
         IDoctorRepository Doctors { get; }
         ISpecializationRepository Specializations { get; }
         IApplicationUserRepository Users { get; }
+        IRoleRepository Roles { get; }
 
         void Complete();
     }

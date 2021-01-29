@@ -4,6 +4,7 @@ using ClinicManagement.Core.Dto;
 using ClinicManagement.Core.Models;
 using ClinicManagement.Core.Repositories;
 using ClinicManagement.Core.ViewModel;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ClinicManagement.Persistence.Repositories
 {
@@ -36,5 +37,28 @@ namespace ClinicManagement.Persistence.Repositories
             return _context.Users.Find(id);
         }
 
+        public string CreateUser(ApplicationUser applicationUser, List<string> roleIds)
+        {
+            var newUser = _context.Users.Add(applicationUser);
+
+            var userRoles = new List<ApplicationUserRoles>();
+            foreach (var roleId in roleIds)
+            {
+                var userRole = new ApplicationUserRoles
+                {
+                    RoleId = roleId,
+                    UserId = newUser.Id
+                };
+                userRoles.Add(userRole);
+            }
+
+            //_context.ApplicationUserRoles.AddRange(userRoles);
+
+            _context.SaveChanges();
+
+
+            return newUser.Id;
+
+        }
     }
 }

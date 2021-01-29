@@ -14,6 +14,7 @@ namespace ClinicManagement.Persistence
         public IDoctorRepository Doctors { get; private set; }
         public ISpecializationRepository Specializations { get; private set; }
         public IApplicationUserRepository Users { get; private set; }
+        public IRoleRepository Roles { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -25,6 +26,7 @@ namespace ClinicManagement.Persistence
             Doctors = new DoctorRepository(context);
             Specializations = new SpecializationRepository(context);
             Users = new ApplicationUserRepository(context);
+            Roles = new RoleRepository(context);
 
         }
 

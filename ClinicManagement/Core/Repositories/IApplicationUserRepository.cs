@@ -8,5 +8,6 @@ namespace ClinicManagement.Core.Repositories
     {
         List<UserViewModel> GetUsers();
         ApplicationUser GetUser(string id);
+        string CreateUser(ApplicationUser applicationUser, List<string> roleIds);
     }
 }

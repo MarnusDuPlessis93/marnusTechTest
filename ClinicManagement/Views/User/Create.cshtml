@@ -2,9 +2,7 @@
 @{
 }
 <link href="~/Content/gridDoctor.css" rel="stylesheet" />
-@using (Html.BeginForm("Create", "Appointments", FormMethod.Post, new { @class = "form-horizontal form-label-left", autocomplete = "off" }))
-{
-
+<form class="form-horizontal form-label-left">
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
     <div class="row">
@@ -14,26 +12,31 @@
                     <br />
                     <span class="section">Create New User</span>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Doctor</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">@Html.LabelFor(o => o.Username)</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             @Html.TextBoxFor(o => o.Username)
                             @Html.ValidationMessageFor(m => m.Username, string.Empty, new { @class = "" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Doctor</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">@Html.LabelFor(o => o.Email)</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             @Html.TextBoxFor(o => o.Email)
                             @Html.ValidationMessageFor(m => m.Email, string.Empty, new { @class = "" })
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Doctor</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            @Html.DropDownListFor(m => m.Role, new SelectList(Model.RolesList, "Id", "Name"), "Select one", new { @class = "form-control", id = "DoctorID" })
-                            @Html.ValidationMessageFor(m => m.Role, string.Empty, new { @class = "" })
-                        </div>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">@Html.LabelFor(o => o.Role)</label>
+                        @foreach (var item in Model.RolesList)
+                        {
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                @Html.CheckBoxFor(o => item.Selected, new { id = item.Text.Trim() })
+                                <label>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        <input type="button" onclick="addNewUser()" role="button" value="Add User" class="btn btn-primary" style="float:right" />
                     </div>
 
                 </div>
@@ -41,80 +44,37 @@
 
         </div>
     </div>
+</form>
+<script>
+    function addNewUser() {
+        var username = $("#Username").val();
+        var email = $("#Email").val();
+        var isAdmin = ($("#Administrator")[0].value === "true");
+        var isDoctor = ($("#Doctor")[0].value === "true");
 
-
-
-}
-
-
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(document).ready(function () {
-            $('#divAppointments').hide();
-
-            var URL = '/appointments/DoctorsList/';
-            $.getJSON(URL, function (data) {
-                var items = '<option value="">Select Doctor</option>';
-                $.each(data, function (i, doctor) {
-                    items += "<option value='" + doctor.Value + "'>" + doctor.Text
-                        + "</option>";
-                });
-                $('#DoctorID').html(items);
-            });
-
-
-            $('#DoctorID').change(function () {
-                var URL = '/appointments/GetUpcommingAppointments/' + $('#DoctorID').val();
-
-                $.ajax({
-                    url: URL,
-                    contentType: 'application/html; charset=utf-8',
-                    type: 'GET',
-                    dataType: 'html'
-
-                })
-                    .success(function (result) {
-                        $('#divAppointments').show();
-                        $('#divAppointments').html(result);
-                    })
-                    .error(function (xhr, status) {
-                        alert(status);
-                    })
-
-            });
-
-
-        });
-
-        $('.date').datepicker({
-            minDate: 0,
-            format: "dd/mm/yyyy",
-            todayHighlight: true,
-            clearBtn: true,
-            orientation: "bottom left",
-            autoclose: true
-        });
-        $('.time').clockpicker({
-            placement: 'bottom',
-            align: 'left',
-            donetext: 'Done',
-            twentyfourhour: true
-        });
-
-        jQuery.validator.methods.date = function (value, element) {
-            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-            if (isChrome) {
-                var d = new Date();
-                return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-            } else {
-                return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
-            }
+        const data = {
+            Username: username,
+            Email: email,
+            isAdmin: isAdmin,
+            isDoctor: isDoctor
         };
-
-    </script>
-
-}
+        const url = window.location.origin + "/User/Create";
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        }).done(data => {
+            window.location = portal.baseUrl + '/QuoteList/Download?name=' + data.FileName;
+        })
+            .fail((jqXhr, textStatus, errorThrown) => {
+                console.log("ERROR: ", JSON.stringify(jqXhr));
+            })
+            .always(() => {
+            });
+    }
+</script>
 
 
 

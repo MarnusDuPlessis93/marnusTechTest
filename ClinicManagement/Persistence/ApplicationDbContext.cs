@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace ClinicManagement.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> 
     {
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -14,6 +14,7 @@ namespace ClinicManagement.Persistence
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<City> Cities { get; set; }
         //public DbSet<PatientStatus> PatientStatus { get; set; }
+        //public DbSet<ApplicationUserRoles> ApplicationUserRoles { get; set; }
 
 
         public ApplicationDbContext()
@@ -37,5 +38,13 @@ namespace ClinicManagement.Persistence
             //modelBuilder.Configurations.Add(new PatientStatusConfiguration());
             base.OnModelCreating(modelBuilder);
         }
+    }
+
+    public class ApplicationUserRoles : IdentityUserRole
+    {
+        public string UserId { get; set; }
+
+        public string RoleId { get; set; }
+
     }
 }

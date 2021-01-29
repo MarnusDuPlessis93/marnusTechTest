@@ -6,6 +6,10 @@ namespace ClinicManagement.Core.ViewModel
 {
     public class UserViewModel
     {
+        public UserViewModel()
+        {
+            RolesList = new List<SelectListItem>();
+        }
         public string Id { get; set; }
         [Required]
         [Display(Name = "Username")]
@@ -19,8 +23,11 @@ namespace ClinicManagement.Core.ViewModel
         [Required]
         [Display(Name = "Is Active")]
         public bool? IsActive { get; set; }
-        public IEnumerable<SelectListItem> RolesList { get; set; }
-
+        public List<SelectListItem> RolesList { get; set; }
+        [Required]
+        public bool IsAdmin { get; set; }
+        [Required]
+        public bool IsDoctor { get; set; }
 
     }
 }
